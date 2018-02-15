@@ -1,0 +1,13 @@
+﻿{  
+    "JobPrices": {
+    "Classic": 269.99,
+    "Standout": 322.99,
+    "Premium": 394.99
+  },
+  "PriviligedCustomers": {
+    "Name": [ "Uniliver", "Apple", "Nike", "Ford" ]    
+  }
+}
+ 
+
+ 
