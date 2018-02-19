@@ -13,13 +13,12 @@ namespace TestTask
 
     public class CompanyDeal : IDeal
     {
-        public string AdvertiserName;
         public JobPrices StandardPrices;
         public JobPrices DiscountPrices = null;
 
-        public CompanyDeal()
+        public CompanyDeal(string pricesFileName = "JobPrices.json")
         {
-            using (var r = new StreamReader("JobPrices.json"))
+            using (var r = new StreamReader(pricesFileName))
             {
                 var json = r.ReadToEnd();
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
@@ -44,10 +43,9 @@ namespace TestTask
 
     public class AppleDeal : CompanyDeal
     {
-        public AppleDeal()
+        public AppleDeal(string appleFielName) : base()
         {
-            this.AdvertiserName = "Apple";
-            using (var r = new StreamReader("AppleJobPrices.json"))
+            using (var r = new StreamReader(appleFielName))
             {
                 var json = r.ReadToEnd();
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
@@ -58,7 +56,7 @@ namespace TestTask
         {
             if (DiscountPrices?.Standout == null)
             {
-                Console.WriteLine($"Error:  {this.AdvertiserName}: no setup for Standout price");
+                Console.WriteLine($"Error: no setup for Standout price");
                 return numJobs * StandardPrices.Standout;
             }
             return numJobs * DiscountPrices.Standout;
@@ -68,10 +66,9 @@ namespace TestTask
     public class NikeDeal : CompanyDeal
     {
         private readonly int DISCOUNT_PREMIUM_JOB_NUMBER = 4;
-        public NikeDeal()
+        public NikeDeal(string nikeFileName)
         {
-            this.AdvertiserName = "Nike";
-            using (var r = new StreamReader("NikeJobPrices.json"))
+            using (var r = new StreamReader(nikeFileName))
             {
                 var json = r.ReadToEnd();
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
@@ -85,7 +82,7 @@ namespace TestTask
             {
                 if (numJobs >= DISCOUNT_PREMIUM_JOB_NUMBER)
                 {
-                    Console.WriteLine($"Error:  {this.AdvertiserName}: no setup for Premium price");
+                    Console.WriteLine($"Error: no setup for Premium price");
                 }
                 return numJobs * StandardPrices.Premium;
             }
@@ -98,10 +95,9 @@ namespace TestTask
     {
         private readonly int DISCOUNT_PREMIUM_JOB_NUMBER = 3;
 
-        public FordDeal()
+        public FordDeal(string fordFileName)
         {
-            this.AdvertiserName = "Ford";
-            using (var r = new StreamReader("FordJobPrices.json"))
+            using (var r = new StreamReader(fordFileName))
             {
                 var json = r.ReadToEnd();
                 var settings = JsonConvert.DeserializeObject<Settings>(json);
@@ -110,14 +106,16 @@ namespace TestTask
         }
         public override double ClassicDeal(int numJobs)
         {
-            return CurrentDeals.FiveForFourClassicAds(numJobs) * StandardPrices.Classic;
+            int i = numJobs / 5;
+            var rest = numJobs % 5;
+            return (i * 4 + rest) * StandardPrices.Classic;
         }
 
         public override double StandOutDeal(int numJobs)
         {
             if (DiscountPrices?.Standout == null)
             {
-                Console.WriteLine($"Error: {this.AdvertiserName}: no setup for Standout price");
+                Console.WriteLine($"Error: no setup for Standout price");
                 return numJobs * StandardPrices.Standout;
             }
             return numJobs * DiscountPrices.Standout;
@@ -128,7 +126,7 @@ namespace TestTask
             {
                 if (numJobs >= DISCOUNT_PREMIUM_JOB_NUMBER)
                 {
-                    Console.WriteLine($"Error: {this.AdvertiserName}: no setup for Premium price");
+                    Console.WriteLine($"Error: no setup for Premium price");
                 }
                 return numJobs * StandardPrices.Premium;
             }
@@ -138,36 +136,14 @@ namespace TestTask
 
     public class UnilevierDeal : CompanyDeal
     {
-      
-        public UnilevierDeal()
-        {
-            this.AdvertiserName = "Uniliever";
-        }
-
+            
         public override double ClassicDeal(int numJobs)
         {
-            return CurrentDeals.ThreeForTwoClassicAds(numJobs) * StandardPrices.Classic;
+            int i = numJobs / 3;
+            var rest = numJobs % 3;
+            return (i * 2 + rest) * StandardPrices.Classic;
         }
   
     }
-
-    public class CurrentDeals 
-    {
-        public static int ThreeForTwoClassicAds(int numClassicAds)
-        {
-            int i = numClassicAds/3;
-            var rest = numClassicAds % 3;
-            return i * 2 + rest;
-        }
-        public static int FiveForFourClassicAds(int numClassicAds)
-        {
-            int i = numClassicAds / 5;
-            var rest = numClassicAds % 5;
-            return i * 4 + rest;
-        }
-        public int StandOutDiscount()
-        {
-            return 4;
-        }
-    }
+ 
 }

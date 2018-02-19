@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
@@ -6,16 +7,14 @@ using TestTask;
 
 namespace TestTaskUnitTests
 {
-    public class CheckoutTests
-    {
+  
+    public class CheckoutTests 
+    {      
+
         [Fact]
         public void ClassicCheckout()
         {
-            var advertiser = new Advertiser("Some name");
-            var deals = new List<CompanyDeal> {new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal()};
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
-
-            var co = new Checkout(rule);
+            var co = new Checkout(new CompanyDeal());
             var classicJob = new Job(JobTypes.Classic);
 
             var result = co.Add(classicJob);
@@ -26,12 +25,8 @@ namespace TestTaskUnitTests
         }
         [Fact]
         public void Uniliever2ClassicCheckout()
-        {
-            var advertiser = new Advertiser("Uniliever");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
-
-            var co = new Checkout(rule);
+        {           
+            var co = new Checkout(new UnilevierDeal());
             var classicJob = new Job(JobTypes.Classic);
 
             co.Add(classicJob);
@@ -44,11 +39,8 @@ namespace TestTaskUnitTests
         [Fact]
         public void Uniliever3ClassicCheckout()
         {
-            var advertiser = new Advertiser("Uniliever");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
+            var co = new Checkout(new UnilevierDeal());
 
-            var co = new Checkout(rule);
             var classicJob = new Job(JobTypes.Classic);
 
             co.Add(classicJob);
@@ -61,11 +53,8 @@ namespace TestTaskUnitTests
         [Fact]
         public void Uniliever4ClassicCheckout()
         {
-            var advertiser = new Advertiser("Uniliever");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
+            var co = new Checkout(new UnilevierDeal());
 
-            var co = new Checkout(rule);
             var classicJob = new Job(JobTypes.Classic);
 
             co.Add(classicJob);
@@ -79,12 +68,8 @@ namespace TestTaskUnitTests
 
         [Fact]
         public void StandoutCheckout()
-        {
-            var advertiser = new Advertiser("Some name");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
-
-            var co = new Checkout(rule);
+        {         
+            var co = new Checkout(new CompanyDeal());
             var standoutJob = new Job(JobTypes.Standout);
 
             var result = co.Add(standoutJob);
@@ -96,11 +81,8 @@ namespace TestTaskUnitTests
         [Fact]
         public void PremiumCheckout()
         {
-            var advertiser = new Advertiser("Some name");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
+            var co = new Checkout(new CompanyDeal());
 
-            var co = new Checkout(rule);
             var premiumJob = new Job(JobTypes.Premium);
 
             var result = co.Add(premiumJob);
@@ -113,11 +95,8 @@ namespace TestTaskUnitTests
         [Fact]
         public void AppleCheckout()
         {
-            var advertiser = new Advertiser("Apple");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
-
-            var co = new Checkout(rule);
+           
+            var co = new Checkout(new AppleDeal("AppleJobPrices.json"));
 
             co.Add(new Job(JobTypes.Classic));
             co.Add(new Job(JobTypes.Standout));
@@ -127,12 +106,8 @@ namespace TestTaskUnitTests
         }
         [Fact]
         public void Nike3PremiumCheckout()
-        {
-            var advertiser = new Advertiser("Nike");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
-
-            var co = new Checkout(rule);
+        {        
+            var co = new Checkout(new NikeDeal("NikeJobPrices.json"));
 
             co.Add(new Job(JobTypes.Premium));
             co.Add(new Job(JobTypes.Premium));
@@ -145,11 +120,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void Nike5PremiumCheckout()
         {
-            var advertiser = new Advertiser("Nike");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
-
-            var co = new Checkout(rule);
+            var co = new Checkout(new NikeDeal("NikeJobPrices.json"));
 
             co.Add(new Job(JobTypes.Premium));
             co.Add(new Job(JobTypes.Premium));
@@ -165,11 +136,8 @@ namespace TestTaskUnitTests
         [Fact]
         public void Ford3PremiumCheckout()
         {
-            var advertiser = new Advertiser("Ford");
-            var deals = new List<CompanyDeal> { new UnilevierDeal(), new AppleDeal(), new NikeDeal(), new FordDeal() };
-            var rule = new PricingRule(deals.FirstOrDefault(deal => deal.AdvertiserName.Equals(advertiser.Name)));
+            var co = new Checkout(new FordDeal("FordJobPrices.json"));
 
-            var co = new Checkout(rule);
 
             co.Add(new Job(JobTypes.Classic));
             co.Add(new Job(JobTypes.Classic));
