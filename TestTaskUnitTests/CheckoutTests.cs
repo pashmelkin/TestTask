@@ -14,7 +14,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void ClassicCheckout()
         {
-            var co = new Checkout(new CompanyDeal());
+            var co = new Checkout(new ClassicJobStrategy(), new StandOutJobStrategy(), new PremiumJobStrategy());
             var classicJob = new Job(JobTypes.Classic);
 
             var result = co.Add(classicJob);
@@ -25,8 +25,8 @@ namespace TestTaskUnitTests
         }
         [Fact]
         public void Uniliever2ClassicCheckout()
-        {           
-            var co = new Checkout(new UnilevierDeal());
+        {
+            var co = new Checkout(new UnilevierClassicStrategy(), new StandOutJobStrategy(), new PremiumJobStrategy());
             var classicJob = new Job(JobTypes.Classic);
 
             co.Add(classicJob);
@@ -39,7 +39,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void Uniliever3ClassicCheckout()
         {
-            var co = new Checkout(new UnilevierDeal());
+            var co = new Checkout(new UnilevierClassicStrategy(), new StandOutJobStrategy(), new PremiumJobStrategy());
 
             var classicJob = new Job(JobTypes.Classic);
 
@@ -53,7 +53,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void Uniliever4ClassicCheckout()
         {
-            var co = new Checkout(new UnilevierDeal());
+            var co = new Checkout(new UnilevierClassicStrategy(), new StandOutJobStrategy(), new PremiumJobStrategy());
 
             var classicJob = new Job(JobTypes.Classic);
 
@@ -68,8 +68,8 @@ namespace TestTaskUnitTests
 
         [Fact]
         public void StandoutCheckout()
-        {         
-            var co = new Checkout(new CompanyDeal());
+        {
+            var co = new Checkout(new ClassicJobStrategy(), new StandOutJobStrategy(), new PremiumJobStrategy());
             var standoutJob = new Job(JobTypes.Standout);
 
             var result = co.Add(standoutJob);
@@ -81,7 +81,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void PremiumCheckout()
         {
-            var co = new Checkout(new CompanyDeal());
+            var co = new Checkout(new ClassicJobStrategy(), new StandOutJobStrategy(), new PremiumJobStrategy());
 
             var premiumJob = new Job(JobTypes.Premium);
 
@@ -95,8 +95,8 @@ namespace TestTaskUnitTests
         [Fact]
         public void AppleCheckout()
         {
-           
-            var co = new Checkout(new AppleDeal("AppleJobPrices.json"));
+
+            var co = new Checkout(new ClassicJobStrategy(), new AppleStandoutStrategy(), new PremiumJobStrategy());
 
             co.Add(new Job(JobTypes.Classic));
             co.Add(new Job(JobTypes.Standout));
@@ -106,8 +106,8 @@ namespace TestTaskUnitTests
         }
         [Fact]
         public void Nike3PremiumCheckout()
-        {        
-            var co = new Checkout(new NikeDeal("NikeJobPrices.json"));
+        {
+            var co = new Checkout(new ClassicJobStrategy(), new StandOutJobStrategy(), new NikePremiumStrategy());
 
             co.Add(new Job(JobTypes.Premium));
             co.Add(new Job(JobTypes.Premium));
@@ -120,7 +120,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void Nike5PremiumCheckout()
         {
-            var co = new Checkout(new NikeDeal("NikeJobPrices.json"));
+            var co = new Checkout(new ClassicJobStrategy(), new StandOutJobStrategy(), new NikePremiumStrategy());
 
             co.Add(new Job(JobTypes.Premium));
             co.Add(new Job(JobTypes.Premium));
@@ -136,7 +136,7 @@ namespace TestTaskUnitTests
         [Fact]
         public void Ford3PremiumCheckout()
         {
-            var co = new Checkout(new FordDeal("FordJobPrices.json"));
+            var co = new Checkout(new FordClassicStrategy(), new FordStandOutStrategy(), new FordPremiumStrategy());
 
 
             co.Add(new Job(JobTypes.Classic));

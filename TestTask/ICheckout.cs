@@ -22,11 +22,15 @@ namespace TestTask
 
     public class Checkout: ICheckout
     {
-        private IDeal deal;
+        private IStrategy classicStrategy;
+        private IStrategy standoutStrategy;
+        private IStrategy premiumStrategy;
         private Triple<int, int, int> shoppingCart = new Triple<int, int, int>();
-        public Checkout(IDeal deal)
+        public Checkout(IStrategy classicStrategy, IStrategy standoutStrategy, IStrategy premiumStrategy)
         {
-            this.deal = deal;
+            this.classicStrategy = classicStrategy;
+            this.standoutStrategy = standoutStrategy;
+            this.premiumStrategy = premiumStrategy;
         }
 
         /// <summary>
@@ -70,9 +74,9 @@ namespace TestTask
         /// </returns>
         public double Total()
         {
-            var classicTotal = deal.ClassicDeal(shoppingCart.ClassicNum);
-            var standoutTotal = deal.StandOutDeal(shoppingCart.StandOutNum);
-            var premiumTotal = deal.PremiumDeal(shoppingCart.PremiumNum);
+            var classicTotal = this.classicStrategy.GetPrice(shoppingCart.ClassicNum);
+            var standoutTotal = this.standoutStrategy.GetPrice(shoppingCart.StandOutNum);
+            var premiumTotal = this.premiumStrategy.GetPrice(shoppingCart.PremiumNum);
 
             return classicTotal + standoutTotal + premiumTotal;
         }
